@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package Id="Booking" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
+    <PackageHeader>
+        <XPDLVersion>1.0</XPDLVersion>
+        <Vendor>Together</Vendor>
+        <Created>2004-09-24 13:48:46</Created>
+    </PackageHeader>
+    <RedefinableHeader PublicationStatus="UNDER_TEST"/>
+    <ConformanceClass GraphConformance="NON_BLOCKED"/>
+    <Script Type="text/java"/>
+    <Participants>
+        <Participant Id="Booking_Par1" Name="Booker">
+            <ParticipantType Type="ROLE"/>
+            <Description>People who is booking a device</Description>
+        </Participant>
+        <Participant Id="Booking_Par2" Name="BookingSystem">
+            <ParticipantType Type="SYSTEM"/>
+            <Description>The booking system</Description>
+        </Participant>
+    </Participants>
+    <Applications>
+        <Application Id="BookDevice" Name="BookDeviceAction">
+            <FormalParameters>
+                <FormalParameter Id="device" Index="DeviceName" Mode="IN">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>Device to book</Description>
+                </FormalParameter>
+                <FormalParameter Id="reason" Index="Reason" Mode="IN">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>Reason for booking</Description>
+                </FormalParameter>
+                <FormalParameter Id="duration" Index="Duration" Mode="IN">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>Expected duration for booking</Description>
+                </FormalParameter>
+                <FormalParameter Id="status" Index="BookingStatus" Mode="OUT">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>The result of booking</Description>
+                </FormalParameter>
+            </FormalParameters>
+            <ExtendedAttributes>
+                <ExtendedAttribute Name="ToolAgentClass" Value="com.solsoft.sbpm.action.BookDeviceToolAgent"/>
+            </ExtendedAttributes>
+        </Application>
+        <Application Id="Unbook" Name="UnbookAction">
+            <FormalParameters>
+                <FormalParameter Id="device" Index="DeviceName" Mode="IN">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                </FormalParameter>
+                <FormalParameter Id="result" Index="Result" Mode="OUT">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>A process key identifying a process to unblock.</Description>
+                </FormalParameter>
+            </FormalParameters>
+            <ExtendedAttributes>
+                <ExtendedAttribute Name="ToolAgentClass" Value="com.solsoft.sbpm.action.UnbookDeviceToolAgent"/>
+            </ExtendedAttributes>
+        </Application>
+        <Application Id="Unblock" Name="UnblockProcess">
+            <FormalParameters>
+                <FormalParameter Id="process" Index="ProcessKey" Mode="IN">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>The process to unblock</Description>
+                </FormalParameter>
+            </FormalParameters>
+            <ExtendedAttributes>
+                <ExtendedAttribute Name="ToolAgentClass" Value="com.solsoft.sbpm.action.UnblockProcessToolAgent"/>
+            </ExtendedAttributes>
+        </Application>
+    </Applications>
+    <WorkflowProcesses>
+        <WorkflowProcess AccessLevel="PUBLIC" Id="Booking_Device" Name="Booking">
+            <ProcessHeader DurationUnit="D">
+                <Created>2004-09-24 13:49:16</Created>
+                <Description>Process to book a device and work with it.</Description>
+            </ProcessHeader>
+            <RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <FormalParameters>
+                <FormalParameter Id="device" Index="Device" Mode="IN">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>The device to book</Description>
+                </FormalParameter>
+                <FormalParameter Id="reason" Index="Reason" Mode="IN">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>The reason why the device is booked.</Description>
+                </FormalParameter>
+            </FormalParameters>
+            <DataFields>
+                <DataField Id="duration" IsArray="FALSE" Name="duration">
+                    <DataType>
+                        <BasicType Type="INTEGER"/>
+                    </DataType>
+                    <Description>Duration of booking</Description>
+                </DataField>
+                <DataField Id="bookStatus" IsArray="FALSE" Name="BookingStatus">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>The booking status</Description>
+                </DataField>
+            </DataFields>
+            <Participants>
+                <Participant Id="Booking_Wor1_Par1" Name="user">
+                    <ParticipantType Type="ROLE"/>
+                </Participant>
+                <Participant Id="Booking_Device_Par2">
+                    <ParticipantType Type="SYSTEM"/>
+                </Participant>
+            </Participants>
+            <Applications>
+                <Application Id="Booking_Device_App1" Name="BookDevice">
+                    <FormalParameters>
+                        <FormalParameter Id="Device" Index="DeviceName" Mode="IN">
+                            <DataType>
+                                <BasicType Type="STRING"/>
+                            </DataType>
+                        </FormalParameter>
+                        <FormalParameter Id="BookingStatus" Index="Result" Mode="OUT">
+                            <DataType>
+                                <BasicType Type="STRING"/>
+                            </DataType>
+                        </FormalParameter>
+                    </FormalParameters>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ToolAgentClass" Value="com.solsoft.sbpm.action.BookDeviceToolAgent"/>
+                    </ExtendedAttributes>
+                </Application>
+                <Application Id="Unbook" Name="UnbookDevice">
+                    <FormalParameters>
+                        <FormalParameter Id="Device" Index="DeviceName" Mode="IN">
+                            <DataType>
+                                <BasicType Type="STRING"/>
+                            </DataType>
+                        </FormalParameter>
+                    </FormalParameters>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ToolAgentClass" Value="com.solsoft.sbpm.action.UnbookDeviceToolAgent"/>
+                    </ExtendedAttributes>
+                </Application>
+            </Applications>
+            <Activities>
+                <Activity Id="Booking_Device_Act1" Name="BookingRequest">
+                    <Description>Request to book a device</Description>
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <Performer>Booking_Par1</Performer>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Manual/>
+                    </FinishMode>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par1"/>
+                        <ExtendedAttribute Name="XOffset" Value="250"/>
+                        <ExtendedAttribute Name="YOffset" Value="50"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Booking_Device_Act2" Name="CheckBooking">
+                    <Description>Check the booking and if the device is available,
+book it for the requestor.</Description>
+                    <Implementation>
+                        <Tool Id="Booking_Device_App1" Type="APPLICATION">
+                            <ActualParameters>
+                                <ActualParameter>device</ActualParameter>
+                                <ActualParameter>bookStatus</ActualParameter>
+                            </ActualParameters>
+                        </Tool>
+                    </Implementation>
+                    <Performer>Booking_Par2</Performer>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <TransitionRestrictions>
+                        <TransitionRestriction>
+                            <Join Type="XOR"/>
+                            <Split Type="XOR">
+                                <TransitionRefs>
+                                    <TransitionRef Id="Booking_Device_Tra6"/>
+                                    <TransitionRef Id="Booking_Device_Tra15"/>
+                                </TransitionRefs>
+                            </Split>
+                        </TransitionRestriction>
+                    </TransitionRestrictions>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par2"/>
+                        <ExtendedAttribute Name="XOffset" Value="250"/>
+                        <ExtendedAttribute Name="YOffset" Value="30"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Booking_Device_Act3" Name="Finish">
+                    <Route/>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <TransitionRestrictions>
+                        <TransitionRestriction>
+                            <Join Type="XOR"/>
+                        </TransitionRestriction>
+                    </TransitionRestrictions>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par2"/>
+                        <ExtendedAttribute Name="XOffset" Value="550"/>
+                        <ExtendedAttribute Name="YOffset" Value="70"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Booking_Device_Act5" Name="WaitRelease">
+                    <Description>Wait until the device is released.</Description>
+                    <Implementation>
+                        <Tool Id="BookDevice" Type="APPLICATION">
+                            <ActualParameters>
+                                <ActualParameter>device</ActualParameter>
+                                <ActualParameter>reason</ActualParameter>
+                                <ActualParameter>duration</ActualParameter>
+                                <ActualParameter>bookStatus</ActualParameter>
+                            </ActualParameters>
+                        </Tool>
+                    </Implementation>
+                    <Performer>Booking_Par2</Performer>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <TransitionRestrictions>
+                        <TransitionRestriction>
+                            <Split Type="XOR">
+                                <TransitionRefs>
+                                    <TransitionRef Id="Booking_Device_Tra17"/>
+                                    <TransitionRef Id="Booking_Device_Tra8"/>
+                                </TransitionRefs>
+                            </Split>
+                        </TransitionRestriction>
+                    </TransitionRestrictions>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par2"/>
+                        <ExtendedAttribute Name="XOffset" Value="250"/>
+                        <ExtendedAttribute Name="YOffset" Value="140"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Booking_Device_Notify" Name="Notify">
+                    <Description>Notify booking of device</Description>
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <Performer>Booking_Par2</Performer>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par2"/>
+                        <ExtendedAttribute Name="XOffset" Value="400"/>
+                        <ExtendedAttribute Name="YOffset" Value="30"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Booking_Device_Act7" Name="Notify">
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <Performer>Booking_Par2</Performer>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par2"/>
+                        <ExtendedAttribute Name="XOffset" Value="400"/>
+                        <ExtendedAttribute Name="YOffset" Value="140"/>
+                    </ExtendedAttributes>
+                </Activity>
+            </Activities>
+            <Transitions>
+                <Transition From="Booking_Device_Act1" Id="Booking_Device_Tra1" Name="Transition" To="Booking_Device_Act2">
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Device_Act2" Id="Booking_Device_Tra6" Name="Transition" To="Booking_Device_Act5">
+                    <Condition Type="OTHERWISE"/>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                        <ExtendedAttribute Name="BreakPoint" Value="270;250;1"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Device_Act5" Id="Booking_Device_Tra8" Name="Transition" To="Booking_Device_Act2">
+                    <Condition Type="OTHERWISE"/>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                        <ExtendedAttribute Name="BreakPoint" Value="300;230;1"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Device_Act2" Id="Booking_Device_Tra15" To="Booking_Device_Notify">
+                    <Condition Type="CONDITION">"ok".equals(bookingStatus)</Condition>
+                    <Description>Device is booked.</Description>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Device_Notify" Id="Booking_Device_Tra16" To="Booking_Device_Act3">
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Device_Act5" Id="Booking_Device_Tra17" To="Booking_Device_Act7">
+                    <Description>"cancelled".equals(bookingStatus)</Description>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Device_Act7" Id="Booking_Device_Tra18" To="Booking_Device_Act3">
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+            </Transitions>
+            <ExtendedAttributes>
+                <ExtendedAttribute Name="StartOfWorkflow" Value="Booking_Par1;Booking_Device_Act1;90;50;NOROUTING"/>
+                <ExtendedAttribute Name="EndOfWorkflow" Value="Booking_Par2;Booking_Device_Act3;700;70;NOROUTING"/>
+                <ExtendedAttribute Name="ParticipantVisualOrder" Value="Booking_Par1;Booking_Par2;"/>
+            </ExtendedAttributes>
+        </WorkflowProcess>
+        <WorkflowProcess AccessLevel="PUBLIC" Id="Booking_Wor2" Name="Unbooking">
+            <ProcessHeader DurationUnit="D">
+                <Created>2004-09-24 13:54:31</Created>
+                <Description>The process to release a device and make it available to others.</Description>
+            </ProcessHeader>
+            <RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <FormalParameters>
+                <FormalParameter Id="device" Index="Device" Mode="IN">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>The device to release</Description>
+                </FormalParameter>
+            </FormalParameters>
+            <DataFields>
+                <DataField Id="waitingProcess" IsArray="FALSE" Name="WaitingProcess">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                </DataField>
+            </DataFields>
+            <Participants>
+                <Participant Id="Booking_Wor2_Par1">
+                    <ParticipantType Type="ROLE"/>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                        <ExtendedAttribute Name="BreakPoint" Value="170;230;1"/>
+                    </ExtendedAttributes>
+                </Participant>
+                <Participant Id="Booking_Wor2_Par2">
+                    <ParticipantType Type="SYSTEM"/>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                        <ExtendedAttribute Name="BreakPoint" Value="170;230;1"/>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par1"/>
+                        <ExtendedAttribute Name="XOffset" Value="210"/>
+                        <ExtendedAttribute Name="YOffset" Value="40"/>
+                    </ExtendedAttributes>
+                </Participant>
+            </Participants>
+            <Activities>
+                <Activity Id="Booking_Wor2_Act1" Name="Release">
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <Performer>Booking_Par1</Performer>
+                    <StartMode>
+                        <Manual/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par1"/>
+                        <ExtendedAttribute Name="XOffset" Value="210"/>
+                        <ExtendedAttribute Name="YOffset" Value="40"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Booking_Wor2_Act2" Name="DoUnbook">
+                    <Implementation>
+                        <Tool Id="Unbook" Type="APPLICATION">
+                            <ActualParameters>
+                                <ActualParameter>device</ActualParameter>
+                                <ActualParameter>waitingProcess</ActualParameter>
+                            </ActualParameters>
+                        </Tool>
+                    </Implementation>
+                    <Performer>Booking_Par2</Performer>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <TransitionRestrictions>
+                        <TransitionRestriction>
+                            <Split Type="XOR">
+                                <TransitionRefs>
+                                    <TransitionRef Id="Booking_Wor2_Tra4"/>
+                                    <TransitionRef Id="Booking_Wor2_Tra3"/>
+                                </TransitionRefs>
+                            </Split>
+                        </TransitionRestriction>
+                    </TransitionRestrictions>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par2"/>
+                        <ExtendedAttribute Name="XOffset" Value="210"/>
+                        <ExtendedAttribute Name="YOffset" Value="60"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Booking_Wor2_Act3" Name="Unblock">
+                    <Implementation>
+                        <Tool Id="Unblock" Type="APPLICATION">
+                            <ActualParameters>
+                                <ActualParameter>waitingProcess</ActualParameter>
+                            </ActualParameters>
+                        </Tool>
+                    </Implementation>
+                    <Performer>Booking_Par2</Performer>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par2"/>
+                        <ExtendedAttribute Name="XOffset" Value="380"/>
+                        <ExtendedAttribute Name="YOffset" Value="10"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Booking_Wor2_Act4" Name="Route">
+                    <Route/>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <TransitionRestrictions>
+                        <TransitionRestriction>
+                            <Join Type="XOR"/>
+                        </TransitionRestriction>
+                    </TransitionRestrictions>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par2"/>
+                        <ExtendedAttribute Name="XOffset" Value="540"/>
+                        <ExtendedAttribute Name="YOffset" Value="60"/>
+                    </ExtendedAttributes>
+                </Activity>
+            </Activities>
+            <Transitions>
+                <Transition From="Booking_Wor2_Act1" Id="Booking_Wor2_Tra2" Name="Transition" To="Booking_Wor2_Act2">
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Wor2_Act2" Id="Booking_Wor2_Tra3" Name="Transition" To="Booking_Wor2_Act4">
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Wor2_Act2" Id="Booking_Wor2_Tra4" Name="Transition" To="Booking_Wor2_Act3">
+                    <Condition Type="CONDITION">waitingProcess != null</Condition>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Wor2_Act3" Id="Booking_Wor2_Tra5" Name="Transition" To="Booking_Wor2_Act4">
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+            </Transitions>
+            <ExtendedAttributes>
+                <ExtendedAttribute Name="StartOfWorkflow" Value="Booking_Par1;Booking_Wor2_Act1;120;40;NOROUTING"/>
+                <ExtendedAttribute Name="EndOfWorkflow" Value="Booking_Par2;Booking_Wor2_Act4;720;60;NOROUTING"/>
+                <ExtendedAttribute Name="ParticipantVisualOrder" Value="Booking_Par1;Booking_Par2;"/>
+            </ExtendedAttributes>
+        </WorkflowProcess>
+        <WorkflowProcess AccessLevel="PUBLIC" Id="Booking_Wor3" Name="BookingUnbooking">
+            <ProcessHeader DurationUnit="D">
+                <Created>2004-10-22 17:56:15</Created>
+                <Description>The process to book and release a device.</Description>
+            </ProcessHeader>
+            <RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <FormalParameters>
+                <FormalParameter Id="device" Index="Device" Mode="IN">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                </FormalParameter>
+                <FormalParameter Id="reason" Index="Reason" Mode="IN">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                </FormalParameter>
+            </FormalParameters>
+            <DataFields>
+                <DataField Id="device" IsArray="FALSE" Name="Device name">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>The device to book</Description>
+                </DataField>
+                <DataField Id="reason" IsArray="FALSE" Name="reason">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>The reason why the device is booked</Description>
+                </DataField>
+                <DataField Id="bookingStatus" IsArray="FALSE" Name="bookingStatus">
+                    <DataType>
+                        <BasicType Type="STRING"/>
+                    </DataType>
+                    <Description>The device booking status</Description>
+                </DataField>
+            </DataFields>
+            <Activities>
+                <Activity Id="Booking_Wor3_Act1" Name="Book">
+                    <Implementation>
+                        <SubFlow Execution="SYNCHR" Id="Booking_Device">
+                            <ActualParameters>
+                                <ActualParameter>device</ActualParameter>
+                                <ActualParameter>reason</ActualParameter>
+                            </ActualParameters>
+                        </SubFlow>
+                    </Implementation>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <TransitionRestrictions>
+                        <TransitionRestriction>
+                            <Split Type="XOR">
+                                <TransitionRefs>
+                                    <TransitionRef Id="Booking_Wor3_Tra6"/>
+                                    <TransitionRef Id="Booking_Wor3_Tra2"/>
+                                </TransitionRefs>
+                            </Split>
+                        </TransitionRestriction>
+                    </TransitionRestrictions>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par1"/>
+                        <ExtendedAttribute Name="XOffset" Value="180"/>
+                        <ExtendedAttribute Name="YOffset" Value="50"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Booking_Wor3_Act2" Name="Unbook">
+                    <Implementation>
+                        <SubFlow Execution="SYNCHR" Id="Booking_Wor2">
+                            <ActualParameters>
+                                <ActualParameter>device</ActualParameter>
+                            </ActualParameters>
+                        </SubFlow>
+                    </Implementation>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par1"/>
+                        <ExtendedAttribute Name="XOffset" Value="350"/>
+                        <ExtendedAttribute Name="YOffset" Value="10"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Booking_Cancelled" Name="Cancelled">
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <Performer>Booking_Par1</Performer>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par1"/>
+                        <ExtendedAttribute Name="XOffset" Value="350"/>
+                        <ExtendedAttribute Name="YOffset" Value="90"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Booking_Finish" Name="Finish">
+                    <Route/>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <TransitionRestrictions>
+                        <TransitionRestriction>
+                            <Join Type="XOR"/>
+                        </TransitionRestriction>
+                    </TransitionRestrictions>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="Booking_Par1"/>
+                        <ExtendedAttribute Name="XOffset" Value="530"/>
+                        <ExtendedAttribute Name="YOffset" Value="50"/>
+                    </ExtendedAttributes>
+                </Activity>
+            </Activities>
+            <Transitions>
+                <Transition From="Booking_Wor3_Act1" Id="Booking_Wor3_Tra2" Name="Transition" To="Booking_Wor3_Act2">
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Wor3_Act1" Id="Booking_Wor3_Tra6" To="Booking_Cancelled">
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Wor3_Act2" Id="Booking_Wor3_Tra7" To="Booking_Finish">
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+                <Transition From="Booking_Cancelled" Id="Booking_Wor3_Tra8" To="Booking_Finish">
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+            </Transitions>
+            <ExtendedAttributes>
+                <ExtendedAttribute Name="StartOfWorkflow" Value="Booking_Par1;Booking_Wor3_Act1;80;50;NOROUTING"/>
+                <ExtendedAttribute Name="EndOfWorkflow" Value="Booking_Par1;Booking_Finish;680;50;NOROUTING"/>
+                <ExtendedAttribute Name="ParticipantVisualOrder" Value="Booking_Par1;"/>
+            </ExtendedAttributes>
+        </WorkflowProcess>
+    </WorkflowProcesses>
+    <ExtendedAttributes>
+        <ExtendedAttribute Name="MadeBy" Value="JaWE"/>
+        <ExtendedAttribute Name="Version" Value="1.4.1"/>
+    </ExtendedAttributes>
+</Package>

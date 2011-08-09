@@ -1,0 +1,27 @@
+project Awe is
+
+   for Languages use ("Ada", "C", "Changelog", "Project file", "Python");
+   for Exec_Dir use ".";
+
+   package Compiler is
+      for Default_Switches ("ada") use ("-gnatf", "-gnato", "-g", "-gnata");
+   end Compiler;
+
+   package Builder is
+      for Default_Switches ("ada") use ("-a", "-s", "-k", "-g");
+   end Builder;
+
+   package Naming is
+      for Specification_Suffix ("c") use ".h";
+      for Implementation_Suffix ("c") use ".c";
+      for Specification_Suffix ("changelog") use "changelog";
+      for Specification_Suffix ("project file") use ".gpr";
+      for Specification_Suffix ("python") use ".py";
+   end Naming;
+
+   package Ide is
+      for Vcs_Kind use "CVS";
+   end Ide;
+
+end Awe;
+

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package Id="Test" Name="Test" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
+    <PackageHeader>
+        <XPDLVersion>1.0</XPDLVersion>
+        <Vendor>Together</Vendor>
+        <Created>2005-02-04 22:14:50</Created>
+    </PackageHeader>
+    <RedefinableHeader PublicationStatus="UNDER_TEST"/>
+    <ConformanceClass GraphConformance="NON_BLOCKED"/>
+    <Script Type="text/java"/>
+    <Participants>
+        <Participant Id="IdCommonParticipant" Name="CommonParticipant">
+            <ParticipantType Type="ROLE"/>
+            <ExtendedAttributes>
+                <ExtendedAttribute Name="Name" Value="Billy"/>
+                <ExtendedAttribute Name="Profile" Value="Manager"/>
+                <ExtendedAttribute Value="Manager"/>
+            </ExtendedAttributes>
+        </Participant>
+    </Participants>
+    <WorkflowProcesses>
+        <WorkflowProcess AccessLevel="PUBLIC" Id="Test_Wor1" Name="Processus">
+            <ProcessHeader DurationUnit="D">
+                <Created>2005-02-04 22:15:13</Created>
+            </ProcessHeader>
+            <RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <Participants>
+                <Participant Id="System" Name="System">
+                    <ParticipantType Type="SYSTEM"/>
+                </Participant>
+            </Participants>
+            <Applications>
+                <Application Id="Print" Name="Print">
+                    <Description>Print hello</Description>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ToolName" Value="Print"/>
+                    </ExtendedAttributes>
+                </Application>
+            </Applications>
+            <Activities>
+                <Activity Id="Test_Wor1_Act1" Name="Générique">
+                    <Implementation>
+                        <Tool Id="Print" Type="APPLICATION"/>
+                    </Implementation>
+                    <Performer>System</Performer>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="System"/>
+                        <ExtendedAttribute Name="XOffset" Value="190"/>
+                        <ExtendedAttribute Name="YOffset" Value="40"/>
+                    </ExtendedAttributes>
+                </Activity>
+                <Activity Id="Test_Wor1_Act2" Name="Générique">
+                    <Implementation>
+                        <Tool Id="Print" Type="APPLICATION"/>
+                    </Implementation>
+                    <Performer>System</Performer>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="System"/>
+                        <ExtendedAttribute Name="XOffset" Value="390"/>
+                        <ExtendedAttribute Name="YOffset" Value="40"/>
+                    </ExtendedAttributes>
+                </Activity>
+            </Activities>
+            <Transitions>
+                <Transition From="Test_Wor1_Act1" Id="Test_Wor1_Tra2" To="Test_Wor1_Act2">
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+                    </ExtendedAttributes>
+                </Transition>
+            </Transitions>
+            <ExtendedAttributes>
+                <ExtendedAttribute Name="StartOfWorkflow" Value="System;Test_Wor1_Act1;70;40;NOROUTING"/>
+                <ExtendedAttribute Name="EndOfWorkflow" Value="System;Test_Wor1_Act2;580;40;NOROUTING"/>
+                <ExtendedAttribute Name="ParticipantVisualOrder" Value="System;"/>
+            </ExtendedAttributes>
+        </WorkflowProcess>
+    </WorkflowProcesses>
+    <ExtendedAttributes>
+        <ExtendedAttribute Name="MadeBy" Value="JaWE"/>
+        <ExtendedAttribute Name="Version" Value="1.4.1"/>
+    </ExtendedAttributes>
+</Package>
